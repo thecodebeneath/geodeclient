@@ -1,0 +1,11 @@
+#
+# start geode and create a region for our app
+#
+start locator --name=locator1
+start server --name=server1
+list members
+
+configure pdx --auto-serializable-classes=com\.codebeneath\.geodeclient\.model\..*
+
+create region --name=hello-world-region --type=REPLICATE
+list regions

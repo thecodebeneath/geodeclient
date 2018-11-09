@@ -1,5 +1,6 @@
 package com.codebeneath.geodeclient;
 
+import com.codebeneath.geodeclient.model.ApplicationMessage;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
@@ -19,19 +20,27 @@ public class GeodeClient implements CommandLineRunner {
         SpringApplication.run(GeodeClient.class, args);
     }
 
-    public void run(String... args) throws Exception {      
+    public void run(String... args) throws Exception {
         System.out.print("Connecting to Geode at host: [" + geodeHost + "]");
-        
+
         try (ClientCache cache = new ClientCacheFactory()
                 .addPoolLocator(geodeHost, 10334)
                 .create()) {
-            Region<String, String> region = cache
-                    .<String, String>createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)
+
+//            Region<String, String> region = cache
+//                    .<String, String>createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)
+//                    .create("hello-world-region");
+//
+//            region.put("1", "Hello");
+//            region.put("2", "World");
+
+            Region<String, ApplicationMessage> region = cache
+                    .<String, ApplicationMessage>createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)
                     .create("hello-world-region");
-            
-            region.put("1", "Hello");
-            region.put("2", "World");
-            
+
+            region.put("1", new ApplicationMessage("Hello"));
+            region.put("2", new ApplicationMessage("World"));
+
             region.entrySet().forEach((entry) -> {
                 System.out.format("key = %s, value = %s\n", entry.getKey(), entry.getValue());
             });
