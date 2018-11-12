@@ -12,7 +12,7 @@ docker build -t apachegeode/geode:with-startup-script .
 The Docker container will start the locator and server and then the gfsh shell
 ```bash
 winpty docker run -it -p 10334:10334 -p 40404:40404 -p 1099:1099 -p 7070:7070 apachegeode/geode:with-startup-script
-gfsh > connect
+gfsh> connect
 ```
 
 Important: Note the hostname connected to, e.g. [host=*d26f1ea42d39*, port=10334]
@@ -29,15 +29,16 @@ mvn clean install
 java -jar target\geodeclient-1.0-SNAPSHOT.jar
 
 # Query the Geode region for data
-```bash
-gfsh > query --query='select * from /hello-world-region'
+Attempt to read whole objects stored in the region:
+```
+gfsh> query --query='select * from /hello-world-region'
 
 This will return a result similiar with a Message: Could not create an instance of a class com.codebeneath.geodeclient.model.ApplicationMessage
 ```
 
 Because PDX is enabled, we can read the individual fields with a query (and avoid full deserialization of the whole object)
-```bash
-gfsh > query --query='select message from /hello-world-region'
+```
+gfsh> query --query='select message from /hello-world-region'
 
 Result
 ------
