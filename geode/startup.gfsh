@@ -2,10 +2,14 @@
 # start geode and create a region for our app
 #
 start locator --name=locator1
+
+# couldn't get this to work (query from gfsh) so instead do it programmatically in GeodeClient.java
+# configure pdx --auto-serializable-classes=com\.codebeneath\.geodeclient\.model\..*
+# configure pdx --auto-serializable-classes=com\.codebeneath\.geodeclient\.model\.*
+# configure pdx --auto-serializable-classes=com.codebeneath.geodeclient.model.*
+
 start server --name=server1
 list members
-
-configure pdx --auto-serializable-classes=com\.codebeneath\.geodeclient\.model\..*
 
 create region --name=hello-world-region --type=REPLICATE
 list regions

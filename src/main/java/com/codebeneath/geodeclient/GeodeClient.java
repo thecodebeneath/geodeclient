@@ -5,6 +5,7 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+import org.apache.geode.pdx.ReflectionBasedAutoSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,14 +26,8 @@ public class GeodeClient implements CommandLineRunner {
 
         try (ClientCache cache = new ClientCacheFactory()
                 .addPoolLocator(geodeHost, 10334)
+                .setPdxSerializer(new ReflectionBasedAutoSerializer("com.codebeneath.geodeclient.model.*"))
                 .create()) {
-
-//            Region<String, String> region = cache
-//                    .<String, String>createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)
-//                    .create("hello-world-region");
-//
-//            region.put("1", "Hello");
-//            region.put("2", "World");
 
             Region<String, ApplicationMessage> region = cache
                     .<String, ApplicationMessage>createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)
