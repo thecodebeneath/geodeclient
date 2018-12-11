@@ -26,9 +26,15 @@ Example:
 127.0.0.1       localhost   d26f1ea42d39
 ```
 
+UPDATE: Not great, but at least the locator host does not change every time the container starts:
+ > declare the Windows host file alias FIRST, then when starting the docker container, give it a `run` switch of `--hostname yourlocalhostalias`.
+
 # Run the simple client
+```
+export GEODE_HOST=yourlocalhostalias
 mvn clean install
 java -jar target\geodeclient-1.0-SNAPSHOT.jar
+```
 
 # Query the Geode region for data
 Attempt to read whole objects stored in the region:
